@@ -27,15 +27,18 @@ c5 = [(322.0-13.0*(np.sqrt(70.0)))/900.0,(322.0+13.0*(np.sqrt(70.0)))/900.0,floa
 Node_r = [0,r2,r3,r4,r5]
 Weight_c = [0,c2,c3,c4,c5]
 
-def Solver(xi,wi):
+def Solver(function, points, limit):
     """
     Solves the integral
     """
     #Please insert formula in lambda function
     #######################################
-    fx = lambda x,w: w*(x)
+    if function == "eg1":
+        fx = lambda x,w: w*(x)
+#    elif
     #######################################
     
+    xi,wi = extract_XiWi(points, limit)
     Solution = 0.0
     for x, w in zip(xi, wi):
         Solution += fx(x,w)
@@ -53,23 +56,3 @@ def extract_XiWi(points, limit):
     wi = [F_wi(a,b,c) for c in W_c]
     return xi, wi
 
-def main(Function, bounds, no_points):
-    limit_str = bounds.split(',')
-    limit = [float(item) for item in limit_str]
-    points = int(no_points)
-    
-    if len(limit) != 2:
-        print "Error: Two bounds are required!!"
-        sys.exit(1)
-    if points < 1 or points > 5:
-        print "Error: Number of points are required to be between 2 and 5"
-        sys.exit(2) 
-    xi,wi = extract_XiWi(points, limit)
-    print Solver(xi,wi)
-    
-if __name__ == '__main__':
-    if(len(sys.argv) is not 4):
-        print "Usage: python assignment1.py [Function] [bounds] [no points]"
-        sys.exit(1)
-    else:
-        main(sys.argv[1], sys.argv[2], sys.argv[3])
